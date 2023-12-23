@@ -1,26 +1,30 @@
 import axios from "axios";
+import https from "https";
+import {headers} from "./helpers.js";
 
 export default function runCommand(channel, userstate, message, userType) {
     // TODO: Use axios to make a request to the API
 
     const API_URL = process.env.API_URL || 'http://localhost:8000'
 
-    const BOT_TOKEN = process.env.BOT_TOKEN
 
-    const headers = {
-        'Authorization': 'Bearer ' + BOT_TOKEN,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    const BOT_DEV = process.env.BOT_DEV || false
+
+    if(BOT_DEV){
+        // Disable SSL verification
+        axios.defaults.httpsAgent = new https.Agent({
+            rejectUnauthorized: false
+        });
     }
 
     const data = {
         channel: channel,
-        userstate: userstate,
+        userState: userstate,
         message: message,
         userType: userType
     }
 
-    let response = axios.post(`${API_URL}/client/command`, data, { headers: headers })
+    let response = axios.post(`${API_URL}/command`, data, { headers: headers })
         .then(function (response) {
 
             // Return the response

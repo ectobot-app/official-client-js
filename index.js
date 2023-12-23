@@ -152,9 +152,8 @@ let messageCount = 0
  * Timer event handler
  */
 setInterval(() => {
-    // Send a message to the channel
-    client.say(CHANNEL_NAME, 'Hey! I\'m still here!')
-    client.say(CHANNEL_NAME, `Messages per minute: ${messageCount}`)
+    // TODO: Send the message count to the API
+
     // Reset the message count
     messageCount = 0
 }, 60000)
